@@ -2,6 +2,18 @@
 
 **Stochasta** is a fast, lightweight, and dependency-free Crystal shard providing modular implementations of stochastic, optimization, and unsupervised learning algorithms.
 
+## What Stochasta Offers
+
+Stochasta brings powerful stochastic models, nature-inspired search metaheuristics, and unsupervised data science algorithms to the Crystal ecosystem. It offers:
+
+1. **Metaheuristic Global Optimization**: Find global extrema for complex continuous or discrete functions where traditional mathematical optimization fails, using Genetic Algorithms, PSO, Differential Evolution, Artificial Bee Colony, and Simulated Annealing.
+2. **Combinatorial Optimization**: Solve routing and sequence-based discrete problems like the Traveling Salesperson Problem (TSP) using Ant Colony Optimization.
+3. **Advanced Clustering Suite**: Group data structures using diverse paradigms—centroid partition (K-Means), density reachability (DBSCAN, Mean Shift), representative cluster medoids (K-Medoids), or bottom-up merge trees (Hierarchical Agglomerative Clustering).
+4. **Probabilistic & Bayesian Reasoning**: Evaluate Bayes' theorem posterior probability updates and classify multi-class categorical texts using Laplace-smoothed Naive Bayes.
+5. **Dimensionality Reduction**: Project complex multi-dimensional datasets to lower dimensions (e.g. for visualization or preprocessing) via Principal Component Analysis (PCA) using a built-in Jacobi eigenvalue decomposition.
+6. **Association Mining**: Discover hidden relationships in transactional/shopping databases with the Apriori association rule mining algorithm.
+7. **Stochastic Simulations**: Run Monte Carlo sample simulations and numerical multi-dimensional integration.
+
 ## Features
 
 - **Genetic Algorithms** (`Stochasta::Genetic`): Flexible evolutionary engine with customizable selection (tournament), crossover, mutation, and support for elitism.

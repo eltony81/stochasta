@@ -1,5 +1,6 @@
 name: stochasta
 version: 0.1.0
+description: A fast, lightweight, and dependency-free library for stochastic simulations, metaheuristic global optimization (Genetic Algorithms, PSO, Differential Evolution, ABC, ACO, Simulated Annealing), Bayesian analysis, and unsupervised learning clustering/dimensionality reduction (K-Means, DBSCAN, K-Medoids, Mean Shift, PCA, Hierarchical clustering, Apriori) in pure Crystal.
 
 authors:
   - tony <antonio.difluri@gmail.com>
