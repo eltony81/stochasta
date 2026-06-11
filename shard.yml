@@ -1,0 +1,12 @@
+name: stochasta
+version: 0.1.0
+
+authors:
+  - tony <antonio.difluri@gmail.com>
+
+crystal: '>= 1.20.2'
+
+license: MIT
+
+repository: https://github.com/eltony81/stochasta
+homepage: https://github.com/eltony81/stochasta
