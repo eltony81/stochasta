@@ -13,6 +13,7 @@ Stochasta brings powerful stochastic models, nature-inspired search metaheuristi
 5. **Dimensionality Reduction**: Project complex multi-dimensional datasets to lower dimensions (e.g. for visualization or preprocessing) via Principal Component Analysis (PCA) using a built-in Jacobi eigenvalue decomposition.
 6. **Association Mining**: Discover hidden relationships in transactional/shopping databases with the Apriori association rule mining algorithm.
 7. **Stochastic Simulations**: Run Monte Carlo sample simulations and numerical multi-dimensional integration.
+8. **Quantitative Finance Suite**: Optimize asset weights for minimum variance or maximum Sharpe ratio (solved via built-in PSO), estimate returns with Black-Litterman, measure VaR/CVaR risk, and simulate asset prices using Geometric Brownian Motion.
 
 ## Features
 
@@ -32,6 +33,7 @@ Stochasta brings powerful stochastic models, nature-inspired search metaheuristi
 - **Ant Colony Optimization (ACO)** (`Stochasta::AntColony`): Combinatorial Traveling Salesperson Problem (TSP) solver.
 - **Artificial Bee Colony (ABC)** (`Stochasta::ArtificialBeeColony`): Swarm-based global optimizer modeled after honey bee foraging.
 - **Simulated Annealing** (`Stochasta::SimulatedAnnealing`): Probabilistic optimization technique for finding global extrema.
+- **Portfolio Optimization & Quant Finance** (`Stochasta::Portfolio`): Minimum variance/maximum Sharpe allocation (utilizing built-in PSO), Black-Litterman returns updating, VaR & CVaR risk estimators, and Geometric Brownian Motion path generators.
 
 ## Installation
 
@@ -63,6 +65,10 @@ Complete, well-commented execution files are available in the [examples/](file:/
 - [mean_shift_example.cr](file:///home/tony/Projects/stochasta/examples/mean_shift_example.cr): Run density-based cluster centroid discovery.
 - [apriori_example.cr](file:///home/tony/Projects/stochasta/examples/apriori_example.cr): Mine shopping transaction databases for association rules (Support, Confidence, Lift).
 - [annealing_example.cr](file:///home/tony/Projects/stochasta/examples/annealing_example.cr): Probabilistic optimization on continuous mathematical functions.
+- [portfolio_optimization_example.cr](file:///home/tony/Projects/stochasta/examples/portfolio_optimization_example.cr): Perform Markowitz portfolio optimization using PSO.
+- [black_litterman_example.cr](file:///home/tony/Projects/stochasta/examples/black_litterman_example.cr): Estimate adjusted asset returns using the Black-Litterman model.
+- [risk_metrics_example.cr](file:///home/tony/Projects/stochasta/examples/risk_metrics_example.cr): Calculate Value at Risk (VaR) and Conditional Value at Risk (CVaR).
+- [gbm_example.cr](file:///home/tony/Projects/stochasta/examples/gbm_example.cr): Simulate future stock price paths using Geometric Brownian Motion.
 
 ### Quick Sample: Naive Bayes Classification
 

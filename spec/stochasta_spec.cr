@@ -290,4 +290,85 @@ describe Stochasta do
     best_cost.should be_close(0.0, 0.05)
     best_pos[0].should be_close(0.0, 0.2)
   end
+
+  it "Portfolio Optimizer finds minimum variance and maximum Sharpe weights" do
+    expected_returns = [0.10, 0.15, 0.12]
+    covariance = [
+      [0.04, 0.01, 0.02],
+      [0.01, 0.09, 0.015],
+      [0.02, 0.015, 0.05]
+    ]
+
+    opt = Stochasta::Portfolio::Optimizer.new(expected_returns, covariance)
+
+    # 1. Min variance
+    min_w = opt.min_variance_weights(iterations: 30)
+    min_w.size.should eq(3)
+    min_w.sum.should be_close(1.0, 1e-6)
+    min_w.each { |w| (w >= 0.0).should be_true }
+
+    # 2. Max Sharpe
+    max_w = opt.max_sharpe_weights(risk_free_rate: 0.02, iterations: 30)
+    max_w.size.should eq(3)
+    max_w.sum.should be_close(1.0, 1e-6)
+  end
+
+  it "Black-Litterman adjusts returns based on prior and views" do
+    prior_returns = [0.08, 0.12]
+    covariance = [
+      [0.04, 0.02],
+      [0.02, 0.09]
+    ]
+    # View: Asset 1 return will be 15% (absolute)
+    p_matrix = [[0.0, 1.0]]
+    q_vector = [0.15]
+
+    adjusted = Stochasta::Portfolio::BlackLitterman.estimate_returns(
+      prior_returns: prior_returns,
+      covariance: covariance,
+      p_matrix: p_matrix,
+      q_vector: q_vector,
+      tau: 0.025
+    )
+
+    adjusted.size.should eq(2)
+    # The return of the second asset should shift from 12% towards 15%
+    (adjusted[1] > 0.12).should be_true
+  end
+
+  it "Portfolio Risk computes parametric and Monte Carlo VaR and CVaR" do
+    mean = 0.08
+    std = 0.15
+
+    p_var = Stochasta::Portfolio::Risk.parametric_var(mean, std, 0.95)
+    p_cvar = Stochasta::Portfolio::Risk.parametric_cvar(mean, std, 0.95)
+
+    p_var.should be_close(0.1667, 0.05)
+    p_cvar.should be_close(0.229, 0.05)
+
+    sims = Array(Float64).new(1000)
+    1000.times do
+      sims << (mean + Stochasta::Portfolio::GBM.random_normal * std)
+    end
+
+    mc_var = Stochasta::Portfolio::Risk.monte_carlo_var(sims, 0.95)
+    mc_cvar = Stochasta::Portfolio::Risk.monte_carlo_cvar(sims, 0.95)
+
+    mc_var.should be_close(p_var, 0.05)
+    (mc_cvar > mc_var).should be_true
+  end
+
+  it "Geometric Brownian Motion simulates paths correctly" do
+    s0 = 100.0
+    mu = 0.1
+    sigma = 0.2
+    
+    path = Stochasta::Portfolio::GBM.simulate_path(s0, mu, sigma, t: 1.0, steps: 10)
+    path.size.should eq(11)
+    path.first.should eq(100.0)
+
+    paths = Stochasta::Portfolio::GBM.simulate_paths(s0, mu, sigma, t: 1.0, steps: 10, n_paths: 10)
+    paths.size.should eq(10)
+    paths.first.first.should eq(100.0)
+  end
 end
