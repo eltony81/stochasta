@@ -15,6 +15,9 @@ module Stochasta
 
       # Fits the data and returns the cluster assignments
       def fit(data : Array(Array(Float64))) : self
+        raise ArgumentError.new("Empty dataset") if data.empty?
+        raise ArgumentError.new("eps must be > 0") if @eps <= 0
+        raise ArgumentError.new("min_samples must be >= 1") if @min_samples < 1
         n = data.size
         @labels = Array(Int32).new(n, UNVISITED)
         cluster_id = 0

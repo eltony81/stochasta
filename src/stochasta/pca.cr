@@ -16,9 +16,11 @@ module Stochasta
     # Fits the PCA model on a dataset
     def fit(data : Array(Array(Float64))) : self
       raise ArgumentError.new("Empty dataset") if data.empty?
+      raise ArgumentError.new("n_components must be >= 1") if @n_components < 1
       n_samples = data.size
       n_features = data.first.size
       raise ArgumentError.new("n_components must be <= n_features") if @n_components > n_features
+      raise ArgumentError.new("At least 2 samples are required to compute covariance") if n_samples < 2
 
       # 1. Compute means
       @means = Array(Float64).new(n_features, 0.0)

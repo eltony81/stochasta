@@ -14,6 +14,7 @@ module Stochasta
       # Fits the dataset and assigns clusters
       def fit(data : Array(Array(Float64))) : self
         raise ArgumentError.new("Empty dataset") if data.empty?
+        raise ArgumentError.new("K must be >= 1") if @k < 1
         n = data.size
         raise ArgumentError.new("K must be <= number of points") if @k > n
 

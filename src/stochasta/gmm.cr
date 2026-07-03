@@ -38,6 +38,7 @@ module Stochasta
       # Fits the GMM on the dataset using Expectation-Maximization
       def fit(data : Array(Array(Float64))) : self
         raise ArgumentError.new("Empty dataset") if data.empty?
+        raise ArgumentError.new("K must be >= 1") if @k < 1
         n_samples = data.size
         n_features = data.first.size
         raise ArgumentError.new("K must be <= number of samples") if @k > n_samples

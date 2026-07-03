@@ -15,6 +15,7 @@ module Stochasta
       # Fits the Mean Shift clustering model
       def fit(data : Array(Array(Float64))) : self
         raise ArgumentError.new("Empty dataset") if data.empty?
+        raise ArgumentError.new("Bandwidth must be > 0") if @bandwidth <= 0
         n = data.size
         dimensions = data.first.size
 

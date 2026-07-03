@@ -358,6 +358,72 @@ describe Stochasta do
     (mc_cvar > mc_var).should be_true
   end
 
+  it "KMeans raises on k < 1" do
+    expect_raises(ArgumentError, "K must be >= 1") do
+      Stochasta::KMeans::Model.new(k: 0).fit([[1.0, 1.0], [2.0, 2.0]])
+    end
+  end
+
+  it "DBSCAN raises on non-positive eps and non-positive min_samples" do
+    data = [[1.0, 1.0], [2.0, 2.0]]
+
+    expect_raises(ArgumentError, "eps must be > 0") do
+      Stochasta::DBSCAN::Model.new(eps: 0.0, min_samples: 1).fit(data)
+    end
+
+    expect_raises(ArgumentError, "min_samples must be >= 1") do
+      Stochasta::DBSCAN::Model.new(eps: 1.0, min_samples: 0).fit(data)
+    end
+  end
+
+  it "DBSCAN raises on empty dataset" do
+    expect_raises(ArgumentError, "Empty dataset") do
+      Stochasta::DBSCAN::Model.new(eps: 1.0, min_samples: 1).fit([] of Array(Float64))
+    end
+  end
+
+  it "Mean Shift raises on non-positive bandwidth" do
+    expect_raises(ArgumentError, "Bandwidth must be > 0") do
+      Stochasta::MeanShift::Model.new(bandwidth: 0.0).fit([[1.0, 1.0], [2.0, 2.0]])
+    end
+  end
+
+  it "KMedoids raises on k < 1" do
+    expect_raises(ArgumentError, "K must be >= 1") do
+      Stochasta::KMedoids::Model.new(k: 0).fit([[1.0, 1.0], [2.0, 2.0]])
+    end
+  end
+
+  it "Hierarchical Clustering raises on k < 1" do
+    expect_raises(ArgumentError, "K must be >= 1") do
+      Stochasta::Hierarchical::Model.new(k: 0).fit([[1.0, 1.0], [2.0, 2.0]])
+    end
+  end
+
+  it "GMM raises on k < 1" do
+    expect_raises(ArgumentError, "K must be >= 1") do
+      Stochasta::GMM::Model.new(k: 0).fit([[1.0, 1.0], [2.0, 2.0]])
+    end
+  end
+
+  it "PCA raises on n_components < 1" do
+    expect_raises(ArgumentError, "n_components must be >= 1") do
+      Stochasta::PCA.new(n_components: 0).fit([[1.0, 2.0], [3.0, 1.0]])
+    end
+  end
+
+  it "PCA raises when fewer than 2 samples are provided" do
+    expect_raises(ArgumentError, "At least 2 samples are required to compute covariance") do
+      Stochasta::PCA.new(n_components: 1).fit([[1.0, 2.0]])
+    end
+  end
+
+  it "PCA handles k == n_features (no dimensionality reduction) and preserves total variance" do
+    data = [[1.0, 2.0], [3.0, 1.0], [2.0, 4.0], [5.0, 3.0]]
+    pca = Stochasta::PCA.new(n_components: 2).fit(data)
+    pca.explained_variance_ratio.sum.should be_close(1.0, 1e-6)
+  end
+
   it "Geometric Brownian Motion simulates paths correctly" do
     s0 = 100.0
     mu = 0.1
